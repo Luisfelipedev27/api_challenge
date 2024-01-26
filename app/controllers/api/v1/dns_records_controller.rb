@@ -3,12 +3,23 @@ module Api
     class DnsRecordsController < ApplicationController
       # GET /dns_records
       def index
-        # TODO: Implement this action
       end
 
       # POST /dns_records
       def create
-        # TODO: Implement this action
+        @dns_record = DnsRecord.new(permitted_params)
+
+        if @dns_record.save
+          render json: { id: @dns_record.id }, status: :created
+        else
+          render :new, status: :bad_request
+        end
+      end
+
+      private
+
+      def permitted_params
+        params.require(:dns_records).permit(:ip, hostnames_attributes: [:hostname])
       end
     end
   end
