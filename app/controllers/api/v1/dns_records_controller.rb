@@ -3,6 +3,20 @@ module Api
     class DnsRecordsController < ApplicationController
       # GET /dns_records
       def index
+        if params[:page].to_i.nil? || params[:page].to_i == 0
+          render json: { error: 'page number is required' }, status: :bad_request
+
+          return
+        end
+
+        service = DnsRecordsService.new(params)
+        dns_records, related_hostnames = service.call
+
+        render json: {
+          total_records: dns_records.count,
+          records: dns_records.map { |record| { id: record.id, ip_address: record.ip } },
+          related_hostnames: related_hostnames.map { |hostname, count| { hostname: hostname, count: count } }
+        }
       end
 
       # POST /dns_records
