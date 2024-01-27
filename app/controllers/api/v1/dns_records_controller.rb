@@ -3,22 +3,29 @@ module Api
     class DnsRecordsController < ApplicationController
       # GET /dns_records
       def index
-        if params[:page].to_i.nil? || params[:page].to_i == 0
-          render json: { error: 'page number is required' }, status: :bad_request
+        if params[:page].to_i.zero?
+          render json: { error: 'Page number is required' }, status: :unprocessable_entity
 
           return
         end
 
         service = DnsRecordsService.new(params)
-        dns_records, related_hostnames = service.call
+        dns_records, related_hostnames, all_general_dns_records, all_related_hostnames = service.call
 
-        render json: {
-          total_records: dns_records.count,
-          records: dns_records.map { |record| { id: record.id, ip_address: record.ip } },
-          related_hostnames: related_hostnames.map { |hostname, count| { hostname: hostname, count: count } }
-        }
+        if params[:included].present? && params[:excluded].present?
+          render json: {
+            total_records: dns_records.count,
+            records: dns_records,
+            related_hostnames: related_hostnames
+          }
+        else
+          render json: {
+            total_records: all_general_dns_records.count,
+            records: all_general_dns_records,
+            related_hostnames: all_related_hostnames
+          }
+        end
       end
-
       # POST /dns_records
       def create
         @dns_record = DnsRecord.new(permitted_params)
@@ -26,7 +33,7 @@ module Api
         if @dns_record.save
           render json: { id: @dns_record.id }, status: :created
         else
-          render :new, status: :bad_request
+          render json: { errors: @dns_record.errors.full_messages }, status: :bad_request
         end
       end
 
