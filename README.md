@@ -1,4 +1,4 @@
-# Api Code Challenge
+# Api
 
 API for storing DNS records (IP addresses) belonging to hostnames done using Ruby on Rails 6 and PostgreSql.
 
