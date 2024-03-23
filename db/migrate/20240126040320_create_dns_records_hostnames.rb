@@ -1,8 +1,10 @@
 class CreateDnsRecordsHostnames < ActiveRecord::Migration[6.1]
   def change
-    create_join_table :dns_records, :hostnames do |t|
-      t.index :dns_record_id
-      t.index :hostname_id
+    create_table :dns_records_hostnames do |t|
+      t.references :dns_record, null: false, foreign_key: true
+      t.references :hostname, null: false, foreign_key: true
+
+      t.timestamps
     end
   end
 end

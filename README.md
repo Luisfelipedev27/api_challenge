@@ -9,7 +9,7 @@ Follow the steps below
 ```sh
 $ Clone the repo
 
-$ cd api_code_challenge
+$ cd dns_records_api
 
 $ docker-compose build
 

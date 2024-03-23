@@ -21,9 +21,11 @@ ActiveRecord::Schema.define(version: 2024_01_26_040320) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "dns_records_hostnames", id: false, force: :cascade do |t|
+  create_table "dns_records_hostnames", force: :cascade do |t|
     t.bigint "dns_record_id", null: false
     t.bigint "hostname_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
     t.index ["dns_record_id"], name: "index_dns_records_hostnames_on_dns_record_id"
     t.index ["hostname_id"], name: "index_dns_records_hostnames_on_hostname_id"
   end
@@ -34,4 +36,6 @@ ActiveRecord::Schema.define(version: 2024_01_26_040320) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "dns_records_hostnames", "dns_records"
+  add_foreign_key "dns_records_hostnames", "hostnames"
 end
