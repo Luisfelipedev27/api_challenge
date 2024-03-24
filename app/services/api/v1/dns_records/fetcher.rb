@@ -27,7 +27,8 @@ module Api
         attr_writer :dns_records, :hostnames, :error_message
 
         def fetch_dns_records
-          self.dns_records = DnsRecord.all
+          self.dns_records = DnsRecord
+                              .all
                               .joins(:hostnames)
                               .distinct
                               .page(@page_number)

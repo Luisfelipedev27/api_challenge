@@ -7,6 +7,7 @@ module Api
 
           return
         end
+        
         service = Api::V1::DnsRecords::Fetcher.call(params)
 
         render json: {

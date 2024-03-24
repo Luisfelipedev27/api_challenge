@@ -5,7 +5,5 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'dns_records', to: 'api/v1/dns_records#index'
-
   root to: 'api/v1/dns_records#index'
 end
