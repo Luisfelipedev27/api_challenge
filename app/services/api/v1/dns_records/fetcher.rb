@@ -27,13 +27,12 @@ module Api
         attr_writer :dns_records, :hostnames, :error_message
 
         def fetch_dns_records
-          self.dns_records = DnsRecord
-                              .all
-                              .joins(:hostnames)
-                              .distinct
-                              .page(@page_number)
-                              .sort_by { |record| record[:id] }
-                              .map { |record| { id: record.id, ip_address: record.ip } }
+          self.dns_records = DnsRecord.all
+                                      .joins(:hostnames)
+                                      .distinct
+                                      .page(@page_number)
+                                      .sort_by { |record| record[:id] }
+                                      .map { |record| { id: record.id, ip_address: record.ip } }
 
 
           true

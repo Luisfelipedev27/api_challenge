@@ -7,7 +7,7 @@ module Api
 
           return
         end
-        
+
         service = Api::V1::DnsRecords::Fetcher.call(params)
 
         render json: {
@@ -18,12 +18,12 @@ module Api
       end
 
       def create
-        @dns_record = DnsRecord.new(permitted_params)
+        service = Api::V1::DnsRecords::Creator.call(permitted_params)
 
-        if @dns_record.save
-          render json: { id: @dns_record.id }, status: :created
+        if service.success?
+          render json: { id: service.dns_records.id }, status: :created
         else
-          render json: { errors: @dns_record.errors.full_messages }, status: :bad_request
+          render json: { errors: service.error_message }, status: :bad_request
         end
       end
 
