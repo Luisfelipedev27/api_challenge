@@ -20,7 +20,7 @@ $ docker-compose run web bundle exec rails db:migrate
 $ docker-compose up
 ```
 
-Now visit: http://localhost:3000/api/v1/dns_records to go directly to the api index endpoint.
+Now visit: http://localhost:3000/api/v1/dns_records?page=1 to go directly to the api index endpoint.
 
 ### Running Tests
 
@@ -139,6 +139,6 @@ Querying the dns_records:
 
 ```sh
 curl --request GET \
-  --url 'http://localhost:3000/dns_records?included=ipsum.com,dolor.com&excluded=sit.com' \
+  --url 'http://localhost:3000/dns_records?page=1' \
   --header 'content-type: application/json'
 ```
